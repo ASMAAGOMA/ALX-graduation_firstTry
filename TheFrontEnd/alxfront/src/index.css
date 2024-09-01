@@ -1,4 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito&family=Merriweather:wght@300;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+:root {
+  --primary-color: #4a3832;
+  --secondary-color: #d4a574;
+  --text-color: #333;
+  --background-color: #f9f5f1;
+  --accent-color: #8c7b75;
+}
 
 * {
   margin: 0;
@@ -6,207 +14,177 @@
   box-sizing: border-box;
 }
 
-/* || VARIABLES */
-
-:root {
-  /* COLORS */
-  --BGCOLOR: #3e2723; /* Soft, dark brown background */
-  --BORDER-COLOR: #FFF;
-  --COLOR: #F5F5F5; /* Off-white color */
-  --ERROR: firebrick;
-  --INACTIVE: lightgray;
-  --LINK-COLOR: #ffccbc; /* Light, warm brown */
-  --LINK-HOVER: rgba(255, 204, 188, 0.9); /* Slightly lighter on hover */
-  --NOTE-BGCOLOR: hsla(240, 64%, 27%, 0.65);
-  --STATUS-COMPLETE: limegreen;
-  --STATUS-OPEN: firebrick;
-  --TABLE-BGCOLOR: #FFF;
-  --TABLE-COLOR: #000;
-}
-
-/* || UTILITY CLASSES */
-.errmsg {
-  display: inline-block;
-  background-color: var(--TABLE-BGCOLOR);
-  color: var(--ERROR);
-  padding: 0.25em;
-  margin-bottom: 0.5em;
-  font-family: 'Nunito', sans-serif;
-}
-
-.nowrap {
-  white-space: nowrap;
-}
-
-.icon-button {
-  width: 48px;
-  height: 48px;
-  font-size: 2.5rem;
-  background-color: transparent;
-  border: none;
-  color: var(--COLOR);
-  display: grid;
-  place-content: center;
-}
-
-.icon-button:hover,
-.icon-button:focus-visible {
-  transform: scale(1.2);
-}
-
-.icon-button[disabled] {
-  visibility: hidden;
-}
-
-/* || GENERAL STYLES */
-
 body {
-  font-family: 'Nunito', sans-serif;
-  min-height: 100vh;
-  background-color: var(--BGCOLOR);
-  color: var(--COLOR);
-  background-image: url('./img/20+\ Cute\ Autumn\ Wallpapers\ To\ Brighten\ Your\ Devices\ _\ Coffee\,\ Donut\ &\ Pie\ Wallpaper\ for\ Laptop.jpg');
-  background-size: cover;
-  background-position: top right;
-  background-blend-mode: multiply;
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.6;
+  color: var(--text-color);
+  background-color: var(--background-color);
 }
 
-input,
-button,
-textarea,
-select {
-  font: inherit;
-}
-
-#root {
-  /* React root div */
-  min-height: 100vh;
-  display: flex;
-  flex-flow: column nowrap;
-}
-
-a {
-  text-decoration: none;
-}
-
-a,
-a:visited {
-  color: var(--LINK-COLOR);
-}
-
-a:hover,
-a:focus-visible {
-  color: var(--LINK-HOVER);
-}
-
-/* || PAGES */
-
-.public,
-.welcome {
+.landing-page {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  font-family: 'Merriweather', serif; /* Different font for a cozy vibe */
+  min-height: 100vh;
 }
 
-.public {
-  padding: 1.5em;
-  flex-grow: 1;
-  background-color: rgba(62, 39, 35, 0.85); /* Slightly transparent soft dark brown */
-  border-radius: 8px;
-  font-size: 1.2rem; /* Larger font size for better readability */
-}
-
-.public__main,
-.login {
-  flex-grow: 1;
-  border-top: 2px solid var(--BORDER-COLOR);
-  border-bottom: 2px solid var(--BORDER-COLOR);
-  padding: 1.5em 0;
-  font-family: 'Nunito', sans-serif; /* Maintain smoother, smaller font here */
-}
-
-.public__addr {
-  margin-top: 1em;
-  font-size: 1.1rem; /* Slightly larger address text */
-}
-
-.welcome a::before {
-  content: "➜ ";
-}
-
-/* || DASH HEADER, CONTAINER & FOOTER */
-
-.dash-header {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  background-color: var(--BGCOLOR);
-  padding: 0 1em;
-  border-bottom: 1px solid var(--BORDER-COLOR);
-  font-family: 'Merriweather', serif; /* Consistent font style */
-  font-size: 1.5rem; /* Slightly larger for visibility */
-}
-
-.dash-header__container {
+.header {
   display: flex;
-  flex-flow: row nowrap;
   justify-content: space-between;
+  align-items: center;
+  padding: 1rem 5%;
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.logo svg {
+  margin-right: 0.5rem;
+}
+
+nav {
+  display: flex;
+  gap: 1.5rem;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: 300;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: var(--secondary-color);
+}
+
+.login-button {
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 2rem 5%;
+}
+
+.hero {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.tagline {
+  font-size: 1.5rem;
+  color: var(--accent-color);
+  margin-bottom: 2rem;
+}
+
+.cta-button {
+  display: inline-block;
+  background-color: var(--secondary-color);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+  background-color: var(--primary-color);
+}
+
+.features {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.feature {
+  flex: 1;
+  text-align: center;
+  padding: 2rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.feature:hover {
+  transform: translateY(-5px);
+}
+
+.feature svg {
+  font-size: 2.5rem;
+  color: var(--secondary-color);
+  margin-bottom: 1rem;
+}
+
+.feature h2 {
+  font-size: 1.5rem;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.footer {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 2rem 5%;
+  text-align: center;
+}
+
+.contact-info {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
+.contact-info p {
+  display: flex;
   align-items: center;
 }
 
-.dash-header__nav {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: flex-end;
-  gap: 0.5em;
+.contact-info svg {
+  margin-right: 0.5rem;
 }
 
-.dash-container {
-  padding: 1em;
-  flex-grow: 1;
-  font-size: 1.2rem; /* Make the content easy to read */
-  font-family: 'Nunito', sans-serif; /* Smooth font */
+.copyright {
+  font-size: 0.9rem;
+  color: var(--accent-color);
 }
 
-.dash-footer {
-  font-size: 1rem;
-  position: sticky;
-  bottom: 0;
-  z-index: 1;
-  background-color: var(--BGCOLOR);
-  padding: 0.5em;
-  border-top: 1px solid var(--BORDER-COLOR);
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: flex-start;
-  gap: 1em;
-  font-family: 'Merriweather', serif; /* Matching the header font */
-}
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 1rem;
+  }
 
-/* New styles for login button placement */
+  nav {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 
-.login {
-  position: relative;
-  padding: 2em; /* Ensure there's enough space for the login button */
-}
+  .features {
+    flex-direction: column;
+  }
 
-.login__button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color: var(--LINK-COLOR);
-  color: var(--BGCOLOR);
-  padding: 0.5em 1em;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  font-family: 'Nunito', sans-serif; /* Keep the button font smooth */
-  font-size: 1rem;
-}
-
-.login__button:hover,
-.login__button:focus-visible {
-  background-color: var(--LINK-HOVER);
+  .contact-info {
+    flex-direction: column;
+    gap: 1rem;
+  }
 }
