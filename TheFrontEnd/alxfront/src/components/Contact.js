@@ -3,6 +3,8 @@ import Header from './DashHeader';
 import Footer from './DashFooter';
 import FormInput from './FormInput';
 import Button from './Button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPhone, faEnvelope, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 
 const ContactPage = () => {
   const handleSubmit = (e) => {
@@ -20,9 +22,24 @@ const ContactPage = () => {
           <p>We'd love to hear from you! Whether you have a question, feedback, or just want to say hello, feel free to reach out to us.</p>
           <div className="contact-details">
             <h2>Get in Touch</h2>
-            <p>Phone: +2234-333-560</p>
-            <p>Email: coffeeshop@gmail.com</p>
-            <p>Address: 43 Anywhere St. Anycity</p>
+            <div className="contact-item">
+              <FontAwesomeIcon icon={faPhone} className="contact-icon" />
+              <a href="https://wa.me/201503930493" target="_blank" rel="noopener noreferrer">
+                +201503930493
+              </a>
+            </div>
+            <div className="contact-item">
+              <FontAwesomeIcon icon={faEnvelope} className="contact-icon" />
+              <a href="mailto:asmaagadallaah@gmail.com">
+                asmaagadallaah@gmail.com
+              </a>
+            </div>
+            <div className="contact-item">
+              <FontAwesomeIcon icon={faMapMarkerAlt} className="contact-icon" />
+              <a href="https://goo.gl/maps/exampleLink" target="_blank" rel="noopener noreferrer">
+                43 Anywhere St. Anycity
+              </a>
+            </div>
           </div>
           <form className="contact-form" onSubmit={handleSubmit}>
             <h2>Send us a Message</h2>

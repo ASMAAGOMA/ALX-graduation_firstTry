@@ -21,7 +21,7 @@ body {
   background-color: var(--background-color);
 }
 
-.landing-page {
+.page {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -41,6 +41,8 @@ body {
   align-items: center;
   font-size: 1.5rem;
   font-weight: 600;
+  color: white;
+  text-decoration: none;
 }
 
 .logo svg {
@@ -69,6 +71,12 @@ nav a:hover {
   padding: 0.5rem 1rem;
   border-radius: 20px;
   font-weight: 600;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: var(--primary-color);
+  color: white;
 }
 
 .main-content {
@@ -145,6 +153,7 @@ nav a:hover {
   color: white;
   padding: 2rem 5%;
   text-align: center;
+  margin-top: auto;
 }
 
 .contact-info {
@@ -168,6 +177,76 @@ nav a:hover {
   color: var(--accent-color);
 }
 
+/* About Page Styles */
+.about-content {
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.about-content h1 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.about-content p {
+  margin-bottom: 1rem;
+}
+
+.about-content ul {
+  margin-left: 2rem;
+  margin-bottom: 1rem;
+}
+
+/* Contact Page Styles */
+.contact-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.contact-details {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.contact-form {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--accent-color);
+  border-radius: 4px;
+}
+
+.form-group textarea {
+  height: 150px;
+}
+
+.submit-button {
+  margin-top: 1rem;
+}
+
 @media (max-width: 768px) {
   .header {
     flex-direction: column;
@@ -186,5 +265,101 @@ nav a:hover {
   .contact-info {
     flex-direction: column;
     gap: 1rem;
+  }
+}
+.button {
+  display: inline-block;
+  background-color: var(--secondary-color);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: var(--primary-color);
+  transform: translateY(-2px);
+}
+
+.submit-button {
+  margin-top: 1rem;
+  width: 100%;
+}
+/* Add these rules to your existing CSS file */
+
+/* Footer styles */
+.footer a,
+.footer a:visited,
+.footer a:hover,
+.footer a:active {
+  color: white;
+  text-decoration: none;
+}
+
+/* Contact page styles */
+.contact-details a,
+.contact-details a:visited,
+.contact-details a:hover,
+.contact-details a:active {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+/* Optional: Add an underline on hover for better user experience */
+.footer a:hover,
+.contact-details a:hover {
+  text-decoration: underline;
+}
+/* Contact Page Styles */
+.contact-details {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.contact-item:hover {
+  transform: translateY(-2px);
+}
+
+.contact-icon {
+  font-size: 1.5rem;
+  color: var(--secondary-color);
+  margin-right: 1rem;
+  width: 24px;
+}
+
+.contact-details a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.contact-details a:hover {
+  color: var(--secondary-color);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .contact-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .contact-icon {
+    margin-bottom: 0.5rem;
   }
 }

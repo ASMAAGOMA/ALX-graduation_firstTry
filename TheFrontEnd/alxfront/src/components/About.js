@@ -8,8 +8,8 @@ const AboutPage = () => {
       <Header />
       
       <main className="main-content">
-        <h1>About Cozy Corner Café</h1>
         <section className="about-content">
+          <h1>About Cozy Corner Café</h1>
           <p>Welcome to Cozy Corner Café, your home away from home for great coffee and warm hospitality.</p>
           <p>Founded in 2010, we've been serving our community with passion and dedication for over a decade. Our mission is simple: to provide a cozy, welcoming space where people can enjoy quality coffee, delicious treats, and good company.</p>
           <p>At Cozy Corner Café, we believe in:</p>
