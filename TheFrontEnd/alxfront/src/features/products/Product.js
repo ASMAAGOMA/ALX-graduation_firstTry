@@ -9,7 +9,7 @@ const Product = ({ productId }) => {
         <div className="product-card">
           <div className="product-image">
             {/* Update the image source to use the correct URL */}
-            <img src={`/products/${product._id}/image`} alt={product.name} />
+            <img src={`http://localhost:3500/uploads/${product.image}`} alt={product.name} />
           </div>
           <div className="product-details">
             <h3 className="product-name">{product.name}</h3>
