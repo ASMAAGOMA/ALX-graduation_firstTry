@@ -1,4 +1,7 @@
 const Product = require('../models/Product')
+const multer = require('multer')
+const path = require('path')
+const fs = require('fs')
 const asyncHandler = require('express-async-handler')
 
 // @desc Get all products
@@ -12,33 +15,45 @@ const getAllProducts = asyncHandler(async (req, res) => {
     res.json(products)
 })
 
-// @desc Create new product
-// @route POST /products
-// @access Private
-const createNewProduct = asyncHandler(async (req, res) => {
-    const { name, price, category, description } = req.body
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}${path.extname(file.originalname)}`);
+  },
+});
+
+const upload = multer({ storage });
+
+const createNewProduct = [
+  upload.single('image'),
+  asyncHandler(async (req, res) => {
+    const { name, price, category, description } = req.body;
+    const image = req.file ? req.file.filename : null;
 
     // Confirm data
-    if (!name || !price || !category) {
-        return res.status(400).json({ message: 'All fields are required' })
+    if (!name || !price || !category || !image) {
+      return res.status(400).json({ message: 'All fields are required' });
     }
 
     // Check for duplicate product
-    const duplicate = await Product.findOne({ name }).lean().exec()
+    const duplicate = await Product.findOne({ name }).lean().exec();
     if (duplicate) {
-        return res.status(409).json({ message: 'Duplicate product name' })
+      return res.status(409).json({ message: 'Duplicate product name' });
     }
 
-    const productObject = { name, price, category, description }
+    const productObject = { name, price, category, description, image };
 
     // Create and store new product
-    const product = await Product.create(productObject)
-    if (product) { // Created 
-        res.status(201).json({ message: `New product ${name} created` })
+    const product = await Product.create(productObject);
+    if (product) {
+      res.status(201).json({ message: `New product ${name} created` });
     } else {
-        res.status(400).json({ message: 'Invalid product data received' })
+      res.status(400).json({ message: 'Invalid product data received' });
     }
-})
+  }),
+];
 
 // @desc Update a product
 // @route PATCH /products
@@ -93,10 +108,37 @@ const deleteProduct = asyncHandler(async (req, res) => {
 
     res.json(reply)
 })
+// @desc Get product image
+// @route GET /products/:id/image
+// @access Public
+const getProductImage = async (req, res) => {
+    const { id } = req.params;
+  
+    try {
+      const product = await Product.findById(id);
+  
+      if (!product || !product.image) {
+        return res.status(404).json({ message: 'Product image not found' });
+      }
+  
+      // Update the image path to be relative to the server's public directory
+      const imagePath = path.join('uploads', product.image);
+  
+      if (!fs.existsSync(imagePath)) {
+        return res.status(404).json({ message: 'Product image not found' });
+      }
+  
+      res.sendFile(path.join(__dirname, '..', 'uploads', product.image));
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Error fetching product image' });
+    }
+  };
 
 module.exports = {
     getAllProducts,
     createNewProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    getProductImage
 }
