@@ -123,6 +123,7 @@ const getProductImage = async (req, res) => {
   
       // Update the image path to be relative to the server's public directory
       const imagePath = path.join('uploads', product.image);
+      console.log(`Constructed Image Path: ${imagePath}`);
   
       if (!fs.existsSync(imagePath)) {
         return res.status(404).json({ message: 'Product image not found' });
