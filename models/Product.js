@@ -1,12 +1,7 @@
 const mongoose = require('mongoose')
-const { stringify } = require('uuid')
 
 const productSchema = new mongoose.Schema({
-    productname: {
-        type: String,
-        required: true
-    },
-    description: {
+    name: {
         type: String,
         required: true
     },
@@ -18,9 +13,7 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    availability: {
-        type: Boolean,
-        default: true
-    }
+    description: String
 })
+
 module.exports = mongoose.model('Product', productSchema)
