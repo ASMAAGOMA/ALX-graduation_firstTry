@@ -11,7 +11,6 @@ const categories = [
   { name: 'Cakes', slug: 'cakes' },
 ];
 
-
 const MenuPage = () => {
   return (
     <div className="page menu-page">
@@ -22,9 +21,10 @@ const MenuPage = () => {
             <Link
               to={`/menu/${category.slug}`}
               key={category.slug}
-              className="category-box"
+              className="category-item"
             >
-              {category.name}
+              <div className={`category-image ${category.slug}`}></div>
+              <div className="category-name">{category.name}</div>
             </Link>
           ))}
         </div>

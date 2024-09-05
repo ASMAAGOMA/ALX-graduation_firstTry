@@ -612,69 +612,55 @@ nav a:hover {
   padding: 20px;
 }
 
-.category-box {
-  background-color: var(--secondary-color);
-  color: var(--text-color);
-  padding: 20px;
-  border-radius: 10px;
-  text-align: center;
+.category-item {
+  display: flex;
+  flex-direction: column;
   text-decoration: none;
-  font-size: 1.2rem;
+  border-radius: 10px;
+  overflow: hidden;
   transition: all 0.3s ease;
 }
 
-.category-box:hover {
-  background-color: var(--primary-color);
-  color: var(--background-color);
+.category-image {
+  width: 100%;
+  padding-top: 100%; /* This creates a 1:1 aspect ratio */
+  background-size: cover;
+  background-position: center;
+}
+
+.category-name {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  padding: 10px;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.category-item:hover {
   transform: translateY(-5px);
 }
 
-
-
-
-.page-container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+.category-item:hover .category-name {
+  background-color: var(--primary-color);
+  color: var(--background-color);
 }
 
-.main-content {
-  flex-grow: 1;
-  padding-top: 80px; /* Adjust based on your header height */
+/* Specific background images for each category */
+.hot-drinks {
+  background-image: url('./img/hotDrrr.jpg');
 }
 
-header {
-  transition: all 0.3s ease;
+.cold-drinks {
+  background-image: url('./img/coldDrrr.jpg');
 }
 
-header.fixed {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  background-color: var(--background-color);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+.desserts {
+  background-image: url('./img/deserts.jpg');
 }
 
-.category-title {
-  text-align: center;
-  margin-bottom: 2rem;
-  font-size: 2rem;
-  color: var(--primary-color);
+
+.cakes {
+  background-image: url('./img/cake.jpg');
 }
 
-.product-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 2rem;
-  padding: 2rem;
-}
-
-.no-products-message {
-  grid-column: 1 / -1;
-  text-align: center;
-  font-size: 1.2rem;
-  color: #8B4513; /* Brown color */
-  padding: 2rem;
-}
+/* Rest of your CSS remains the same */
