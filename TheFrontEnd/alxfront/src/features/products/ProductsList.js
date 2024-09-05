@@ -1,30 +1,45 @@
-import { useGetProductsQuery } from './productsApiSlice'
-import Product from './Product'
+import React from 'react';
+import { useParams } from 'react-router-dom';
+import { useGetProductsQuery } from './productsApiSlice';
+import Product from './Product';
 
 const ProductsList = () => {
-  const { data: products, isLoading, isSuccess, isError, error } = useGetProductsQuery()
+  const { category } = useParams();
+  const { data: products, isLoading, isSuccess, isError, error } = useGetProductsQuery();
 
-  let content
+  let content;
 
-  if (isLoading) content = <p>Loading...</p>
+  if (isLoading) {
+    content = <p>Loading...</p>;
+  }
 
   if (isError) {
-    content = <p className="errmsg">{error?.data?.message}</p>
+    content = <p className="errmsg">{error?.data?.message}</p>;
   }
 
   if (isSuccess) {
-    const { ids } = products
+    const { ids, entities } = products;
+
+    // Filter products based on category
+    const filteredIds = ids.filter(id => entities[id].category === category);
 
     content = (
       <div className="product-grid">
-        {ids?.length
-          ? ids.map(productId => <Product key={productId} productId={productId} />)
-          : null}
+        {filteredIds.length ? (
+          filteredIds.map(productId => <Product key={productId} productId={productId} />)
+        ) : (
+          <p className="no-products-message">No products found in this category.</p>
+        )}
       </div>
-    )
+    );
   }
 
-  return content
-}
+  return (
+    <>
+      <h1 className="category-title">{category.replace('-', ' ').toUpperCase()}</h1>
+      {content}
+    </>
+  );
+};
 
-export default ProductsList
+export default ProductsList;

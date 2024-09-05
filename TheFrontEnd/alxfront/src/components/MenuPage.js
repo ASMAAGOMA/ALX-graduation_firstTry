@@ -1,13 +1,34 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Header from './DashHeader';
 import Footer from './DashFooter';
 import ProductsList from '../features/products/ProductsList';
+
+const categories = [
+  { name: 'Hot Drinks', slug: 'hot-drinks' },
+  { name: 'Cold Drinks', slug: 'cold-drinks' },
+  { name: 'Desserts', slug: 'desserts' },
+  { name: 'Cakes', slug: 'cakes' },
+];
+
 
 const MenuPage = () => {
   return (
     <div className="page menu-page">
       <Header />
-        <ProductsList />
+      <main className="main-content">
+        <div className="categories-container">
+          {categories.map((category) => (
+            <Link
+              to={`/menu/${category.slug}`}
+              key={category.slug}
+              className="category-box"
+            >
+              {category.name}
+            </Link>
+          ))}
+        </div>
+      </main>
       <Footer />
     </div>
   );
