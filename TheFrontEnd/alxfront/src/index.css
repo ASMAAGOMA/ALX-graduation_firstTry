@@ -664,3 +664,31 @@ nav a:hover {
 }
 
 /* Rest of your CSS remains the same */
+
+
+
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding-top: 80px; /* Adjust based on your header height */
+}
+
+header {
+  transition: all 0.3s ease;
+}
+
+header.fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: var(--background-color);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
