@@ -520,44 +520,28 @@ nav a:hover {
 
 .modal-product-info {
   flex: 1;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 0.75rem 1.5rem;
-  align-items: start;
-}
-
-.modal-product-info dt {
-  font-weight: 600;
-  color: var(--primary-color);
-  text-align: right;
-  padding-right: 0.5rem;
-}
-
-.modal-product-info dd {
-  margin: 0;
-  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .modal-product-name {
   font-size: 2rem;
   color: var(--primary-color);
-  grid-column: 1 / -1;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
 }
 
-.modal-product-price {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: var(--secondary-color);
-}
-
-.modal-product-description {
+.modal-product-info p {
   font-size: 1rem;
   color: var(--text-color);
   line-height: 1.6;
-  text-align: left;
-  grid-column: 1 / -1;
-  margin-top: 1rem;
+}
+
+.modal-product-info strong {
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-right: 0.5rem;
 }
 
 @media (max-width: 768px) {
@@ -575,20 +559,24 @@ nav a:hover {
   }
 }
 
-@media (max-width: 480px) {
-  .modal-product-info {
-    grid-template-columns: 1fr;
-  }
-
-  .modal-product-info dt {
-    text-align: left;
-  }
-
-  .modal-product-name {
-    font-size: 1.5rem;
-  }
-
-  .modal-product-price {
-    font-size: 1.2rem;
-  }
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
+
+.main-content {
+  flex: 1;
+  padding-top: 60px; /* Adjust this value according to your header height */
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%; /* Or any background color you prefer */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000; /* Ensure header is above other content */
+}
+
+
