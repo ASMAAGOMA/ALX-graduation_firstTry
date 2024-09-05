@@ -363,10 +363,14 @@ nav a:hover {
     margin-bottom: 0.5rem;
   }
 }
+
+
+
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  grid-gap: 1.5rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  padding: 2rem 0;
 }
 
 .product-card {
@@ -375,6 +379,9 @@ nav a:hover {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .product-card:hover {
@@ -383,6 +390,7 @@ nav a:hover {
 
 .product-image {
   height: 150px;
+  width: 100%;
 }
 
 .product-image img {
@@ -392,29 +400,195 @@ nav a:hover {
 }
 
 .product-details {
-  padding: 1.5rem;
+  padding: 1rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .product-name {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   color: var(--primary-color);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.3rem;
 }
 
 .product-price {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--accent-color);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.3rem;
 }
 
 .product-description {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   color: var(--text-color);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.3rem;
+  flex-grow: 1;
 }
 
 .product-category {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: var(--secondary-color);
+}
+
+@media (max-width: 1200px) {
+  .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(74, 56, 50, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.modal-box {
+  background-color: var(--background-color);
+  padding: 2.5rem;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 800px;
+  max-height: 90vh;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: var(--secondary-color);
+  border: none;
+  font-size: 1.5rem;
+  color: var(--background-color);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-close:hover {
+  background-color: var(--primary-color);
+  transform: rotate(90deg);
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 2rem;
+}
+
+.modal-image {
+  width: 40%;
+  max-width: 300px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.modal-product-info {
+  flex: 1;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.75rem 1.5rem;
+  align-items: start;
+}
+
+.modal-product-info dt {
+  font-weight: 600;
+  color: var(--primary-color);
+  text-align: right;
+  padding-right: 0.5rem;
+}
+
+.modal-product-info dd {
+  margin: 0;
+  color: var(--text-color);
+}
+
+.modal-product-name {
+  font-size: 2rem;
+  color: var(--primary-color);
+  grid-column: 1 / -1;
+  margin-bottom: 0.5rem;
+}
+
+.modal-product-price {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--secondary-color);
+}
+
+.modal-product-description {
+  font-size: 1rem;
+  color: var(--text-color);
+  line-height: 1.6;
+  text-align: left;
+  grid-column: 1 / -1;
+  margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+  .modal-content {
+    flex-direction: column;
+  }
+
+  .modal-image {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .modal-product-info {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-product-info {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-product-info dt {
+    text-align: left;
+  }
+
+  .modal-product-name {
+    font-size: 1.5rem;
+  }
+
+  .modal-product-price {
+    font-size: 1.2rem;
+  }
 }
