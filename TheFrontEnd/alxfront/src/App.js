@@ -6,21 +6,24 @@ import ContactPage from './components/Contact';
 import MenuPage from './components/MenuPage';
 import OrderNowPage from './components/OrderNowPage';
 import Login from './features/auth/Login';
-import DashLayout from './components/DashLAyout';
+import Register from './features/auth/Register';
 import ProductsPage from './features/products/ProductPage';
+import RequireAuth from './components/RequireAuth';
+import FavoriteProducts from './components/FavoriteProducts';
 
 function App() {
   return (
     <Routes>
-      <Route>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path="menu" element={<MenuPage />} />
-        <Route path="menu/:category" element={<ProductsPage />} />
+      <Route path="/" element={<HomePage />} />
+      <Route path="/about" element={<AboutPage />} />
+      <Route path="/contact" element={<ContactPage />} />
+      <Route path="/menu" element={<MenuPage />} />
+      <Route path="/menu/:category" element={<ProductsPage />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route element={<RequireAuth />}>
         <Route path="/order" element={<OrderNowPage />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/dash" element={<DashLayout />} />
+        <Route path="/favorites" element={<FavoriteProducts />} />
       </Route>
     </Routes>
   );

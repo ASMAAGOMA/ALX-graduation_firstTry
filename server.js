@@ -9,6 +9,7 @@ const cors = require('cors')
 const corsOptions = require('./config/coresOptions')
 const connectDB = require('./config/dbConn')
 const mongoose = require('mongoose')
+const authRoutes = require('./routes/authRoutes')
 
 const PORT = process.env.PORT || 3500
 
@@ -25,6 +26,7 @@ app.use('/public', express.static(path.join(__dirname, 'public')))
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 
 app.use('/', require('./routes/root'))
+app.use('/auth', require('./routes/authRoutes'))
 app.use('/users', require('./routes/userRoutes'))
 app.use('/menu', require('./routes/productRoutes'))
 
