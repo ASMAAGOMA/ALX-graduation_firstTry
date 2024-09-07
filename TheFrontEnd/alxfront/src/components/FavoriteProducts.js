@@ -2,11 +2,21 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../features/auth/authSlice';
 import { useGetFavoriteProductsQuery, useRemoveFavoriteProductMutation } from '../features/auth/authApiSlice';
+import { Link } from 'react-router-dom';
 
 const FavoriteProducts = () => {
     const user = useSelector(selectCurrentUser);
     const { data: favorites, isLoading, isError, error } = useGetFavoriteProductsQuery(user?.id);
     const [removeFavorite] = useRemoveFavoriteProductMutation();
+
+    if (!user) {
+        return (
+            <div className="favorite-products">
+                <h2>Your Favorite Products</h2>
+                <p>You must be logged in to view your favorites. <Link to="/login">Login here</Link></p>
+            </div>
+        );
+    }
 
     if (isLoading) {
         return <div>Loading favorite products...</div>;

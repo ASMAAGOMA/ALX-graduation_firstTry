@@ -1,4 +1,5 @@
 import { apiSlice } from "../../app/api/apiSlice";
+import { setCredentials, logOut } from "./authSlice";
 
 export const authApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
@@ -7,7 +8,15 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 url: '/auth/login',
                 method: 'POST',
                 body: { ...credentials }
-            })
+            }),
+            async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+                try {
+                    const { data } = await queryFulfilled;
+                    dispatch(setCredentials(data));
+                } catch (err) {
+                    console.error('Login failed:', err);
+                }
+            }
         }),
         register: builder.mutation({
             query: userData => ({
@@ -20,29 +29,50 @@ export const authApiSlice = apiSlice.injectEndpoints({
             query: () => ({
                 url: '/auth/logout',
                 method: 'POST',
-            })
+            }),
+            async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+                try {
+                    await queryFulfilled;
+                    dispatch(logOut());
+                    dispatch(apiSlice.util.resetApiState());
+                } catch (err) {
+                    console.error('Logout failed:', err);
+                }
+            }
         }),
         refresh: builder.mutation({
             query: () => ({
                 url: '/auth/refresh',
                 method: 'GET',
-            })
+            }),
+            async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+                try {
+                    const { data } = await queryFulfilled;
+                    dispatch(setCredentials(data));
+                } catch (err) {
+                    console.error('Token refresh failed:', err);
+                }
+            }
+        }),
+        getCurrentUser: builder.query({
+            query: () => '/auth/me',
+            providesTags: ['User']
         }),
         getFavoriteProducts: builder.query({
-            query: (userId) => `/users/${userId}/favorites`,
+            query: () => `/users/favorites`,
             providesTags: ['Favorites']
         }),
         addFavoriteProduct: builder.mutation({
-            query: ({ userId, productId }) => ({
-                url: `/users/${userId}/favorites`,
+            query: (productId) => ({
+                url: `/users/favorites`,
                 method: 'POST',
                 body: { productId }
             }),
             invalidatesTags: ['Favorites']
         }),
         removeFavoriteProduct: builder.mutation({
-            query: ({ userId, productId }) => ({
-                url: `/users/${userId}/favorites/${productId}`,
+            query: (productId) => ({
+                url: `/users/favorites/${productId}`,
                 method: 'DELETE',
             }),
             invalidatesTags: ['Favorites']
@@ -55,6 +85,7 @@ export const {
     useRegisterMutation,
     useLogoutMutation,
     useRefreshMutation,
+    useGetCurrentUserQuery,
     useGetFavoriteProductsQuery,
     useAddFavoriteProductMutation,
     useRemoveFavoriteProductMutation

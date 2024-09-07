@@ -21,9 +21,9 @@ function App() {
       <Route path="/menu/:category" element={<ProductsPage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/favorites" element={<FavoriteProducts />} />
       <Route element={<RequireAuth />}>
         <Route path="/order" element={<OrderNowPage />} />
-        <Route path="/favorites" element={<FavoriteProducts />} />
       </Route>
     </Routes>
   );

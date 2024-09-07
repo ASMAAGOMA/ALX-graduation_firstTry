@@ -944,3 +944,142 @@ header.fixed {
     font-size: 1.75rem;
   }
 }
+
+
+
+/* Existing styles remain the same */
+
+.favorites-link {
+  display: flex;
+  align-items: center;
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.favorites-link:hover {
+  color: var(--secondary-color);
+}
+
+.favorites-link svg {
+  font-size: 1.2rem;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.order-button {
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 600;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  text-decoration: none;
+}
+
+.order-button:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+
+
+
+
+/* Product.css */
+.product-card {
+  position: relative;
+}
+
+.favorite-button {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: color 0.2s;
+  color: #888; /* Default color, adjust as needed */
+}
+
+.favorite-button:hover,
+.favorite-button:focus {
+  color: red;
+}
+
+.favorite-button.favorite {
+  color: red;
+}
+
+.modal-favorite-button {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: color 0.2s;
+  color: #888; /* Default color, adjust as needed */
+}
+
+.modal-favorite-button:hover,
+.modal-favorite-button:focus {
+  color: red;
+}
+
+.modal-favorite-button.favorite {
+  color: red;
+}
+
+/* Rest of the existing modal styles remain unchanged */
+.modal-overlay {
+  /* ... existing styles ... */
+}
+
+.modal-box {
+  /* ... existing styles ... */
+}
+
+.modal-close {
+  /* ... existing styles ... */
+}
+
+.modal-content {
+  /* ... existing styles ... */
+}
+
+.modal-image {
+  /* ... existing styles ... */
+}
+
+.modal-product-info {
+  /* ... existing styles ... */
+}
+
+.modal-product-name {
+  /* ... existing styles ... */
+}
+
+.modal-product-info p {
+  /* ... existing styles ... */
+}
+
+.modal-product-info strong {
+  /* ... existing styles ... */
+}
+
+@media (max-width: 768px) {
+  /* ... existing media query styles ... */
+}

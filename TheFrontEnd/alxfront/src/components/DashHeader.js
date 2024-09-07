@@ -1,9 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCoffee } from '@fortawesome/free-solid-svg-icons';
+import { faCoffee, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { selectCurrentUser } from '../features/auth/authSlice';
 
-const Header = () => {
+const DashHeader = () => {
+  const user = useSelector(selectCurrentUser);
+
   return (
     <header className="header">
       <Link to="/" className="logo">
@@ -14,10 +18,18 @@ const Header = () => {
         <Link to="/menu">Menu</Link>
         <Link to="/about">About</Link>
         <Link to="/contact">Contact</Link>
-        <Link to="/login" className="login-button">Login</Link>
+        <Link to="/favorites" className="favorites-link">
+          <FontAwesomeIcon icon={faHeart} />
+          <span className="sr-only">Favorites</span>
+        </Link>
+        {user ? (
+          <Link to="/order" className="order-button">Order Now</Link>
+        ) : (
+          <Link to="/login" className="login-button">Login</Link>
+        )}
       </nav>
     </header>
   );
 };
 
-export default Header;
+export default DashHeader;
