@@ -21,8 +21,8 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const { accessToken } = await login({ email, password }).unwrap();
-            dispatch(setCredentials({ accessToken }));
+            const userData = await login({ email, password }).unwrap();
+            dispatch(setCredentials({ ...userData, user: userData.user }));
             setEmail('');
             setPassword('');
             navigate('/menu');

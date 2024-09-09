@@ -1,57 +1,39 @@
 import React from 'react';
+import { useGetFavoritesQuery } from '../features/favorites/favoritesApiSlice';
+import Product from '../features/products/Product';
 import { useSelector } from 'react-redux';
-import { selectCurrentUser } from '../features/auth/authSlice';
-import { useGetFavoriteProductsQuery, useRemoveFavoriteProductMutation } from '../features/auth/authApiSlice';
+import { selectIsLoggedIn } from '../features/auth/authSlice';
 import { Link } from 'react-router-dom';
 
 const FavoriteProducts = () => {
-    const user = useSelector(selectCurrentUser);
-    const { data: favorites, isLoading, isError, error } = useGetFavoriteProductsQuery(user?.id);
-    const [removeFavorite] = useRemoveFavoriteProductMutation();
+    const isLoggedIn = useSelector(selectIsLoggedIn);
+    const { data: favorites, isLoading, isError, error } = useGetFavoritesQuery(undefined, {
+        skip: !isLoggedIn,
+    });
 
-    if (!user) {
+    if (!isLoggedIn) {
         return (
             <div className="favorite-products">
                 <h2>Your Favorite Products</h2>
-                <p>You must be logged in to view your favorites. <Link to="/login">Login here</Link></p>
+                <p>Please <Link to="/login">log in</Link> to view your favorite products.</p>
             </div>
         );
     }
 
-    if (isLoading) {
-        return <div>Loading favorite products...</div>;
-    }
-
-    if (isError) {
-        return <div>Error loading favorites: {error.toString()}</div>;
-    }
-
-    const handleRemoveFavorite = async (productId) => {
-        try {
-            await removeFavorite({ userId: user.id, productId }).unwrap();
-        } catch (err) {
-            console.error('Failed to remove favorite:', err);
-        }
-    };
+    if (isLoading) return <div>Loading...</div>;
+    if (isError) return <div>Error: {error?.data?.message || 'Failed to fetch favorites'}</div>;
 
     return (
         <div className="favorite-products">
             <h2>Your Favorite Products</h2>
-            {favorites?.length === 0 ? (
-                <p>You haven't added any products to your favorites yet.</p>
-            ) : (
-                <ul>
-                    {favorites?.map(product => (
-                        <li key={product.id}>
-                            <h3>{product.name}</h3>
-                            <p>{product.description}</p>
-                            <p>Price: ${product.price}</p>
-                            <button onClick={() => handleRemoveFavorite(product.id)}>
-                                Remove from Favorites
-                            </button>
-                        </li>
+            {favorites && favorites.length > 0 ? (
+                <div className="products-grid">
+                    {favorites.map(product => (
+                        <Product key={product._id} productId={product._id} />
                     ))}
-                </ul>
+                </div>
+            ) : (
+                <p>You haven't added any favorites yet.</p>
             )}
         </div>
     );

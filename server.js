@@ -10,6 +10,8 @@ const corsOptions = require('./config/coresOptions')
 const connectDB = require('./config/dbConn')
 const mongoose = require('mongoose')
 const authRoutes = require('./routes/authRoutes')
+const favoritesRoutes = require('./routes/favoritesRoutes');
+const verifyJWT = require('./middleware/verifyJWT')
 
 const PORT = process.env.PORT || 3500
 
@@ -29,6 +31,7 @@ app.use('/', require('./routes/root'))
 app.use('/auth', require('./routes/authRoutes'))
 app.use('/users', require('./routes/userRoutes'))
 app.use('/menu', require('./routes/productRoutes'))
+app.use('/users/favorites', require('./routes/favoritesRoutes'));
 
 app.all('*', (req, res) => {
     res.status(404)

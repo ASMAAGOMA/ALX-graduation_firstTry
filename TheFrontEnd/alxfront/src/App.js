@@ -10,20 +10,23 @@ import Register from './features/auth/Register';
 import ProductsPage from './features/products/ProductPage';
 import RequireAuth from './components/RequireAuth';
 import FavoriteProducts from './components/FavoriteProducts';
+import PersistLogin from './features/auth/PersistLogin';
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/about" element={<AboutPage />} />
-      <Route path="/contact" element={<ContactPage />} />
-      <Route path="/menu" element={<MenuPage />} />
-      <Route path="/menu/:category" element={<ProductsPage />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/favorites" element={<FavoriteProducts />} />
-      <Route element={<RequireAuth />}>
-        <Route path="/order" element={<OrderNowPage />} />
+      <Route element={<PersistLogin />}>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/menu" element={<MenuPage />} />
+        <Route path="/menu/:category" element={<ProductsPage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/favorites" element={<FavoriteProducts />} />
+        <Route element={<RequireAuth />}>
+          <Route path="/order" element={<OrderNowPage />} />
+        </Route>
       </Route>
     </Routes>
   );

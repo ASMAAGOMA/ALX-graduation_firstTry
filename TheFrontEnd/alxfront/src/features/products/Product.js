@@ -1,23 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as fasHeart } from '@fortawesome/free-solid-svg-icons';
 import { selectProductById } from './productsApiSlice';
-import { selectCurrentUser } from '../../features/auth/authSlice';
+import { selectCurrentUser, selectIsLoggedIn } from '../../features/auth/authSlice';
 import { useAddFavoriteProductMutation, useRemoveFavoriteProductMutation } from '../../features/auth/authApiSlice';
-
+import { useAddFavoriteMutation, useRemoveFavoriteMutation } from '../favorites/favoritesApiSlice';
+import { useNavigate } from 'react-router-dom';
 
 const Product = ({ productId }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const product = useSelector((state) => selectProductById(state, productId));
     const user = useSelector(selectCurrentUser);
-    const dispatch = useDispatch();
+    const isLoggedIn = useSelector(selectIsLoggedIn);
+    const navigate = useNavigate();
     
-    const [addFavorite] = useAddFavoriteProductMutation();
-    const [removeFavorite] = useRemoveFavoriteProductMutation();
+    const [addFavorite] = useAddFavoriteMutation();
+    const [removeFavorite] = useRemoveFavoriteMutation();
 
-    const [isFavorite, setIsFavorite] = useState(user?.favorites?.includes(productId));
+    const [isFavorite, setIsFavorite] = useState(false);
+
+    useEffect(() => {
+        if (user && user.favorites) {
+            setIsFavorite(user.favorites.includes(productId));
+        }
+    }, [user, productId]);
 
     const handleCardClick = () => {
         setIsModalOpen(true);
@@ -29,29 +37,29 @@ const Product = ({ productId }) => {
 
     const handleFavoriteClick = async (e) => {
         e.stopPropagation();
-        if (!user) {
-            alert("You must be logged in to add favorites.");
-            return;
+        if (!isLoggedIn) {
+          navigate('/login');
+          return;
         }
-
+      
         try {
-            if (isFavorite) {
-                await removeFavorite({ userId: user.id, productId }).unwrap();
-            } else {
-                await addFavorite({ userId: user.id, productId }).unwrap();
-            }
-            setIsFavorite(!isFavorite);
+          if (isFavorite) {
+            await removeFavorite(productId).unwrap();
+          } else {
+            await addFavorite(productId).unwrap();
+          }
+          setIsFavorite(!isFavorite);
         } catch (err) {
-            console.error('Failed to update favorite:', err);
+          console.error('Failed to update favorite:', err);
         }
     };
-
+      
     if (!product) return null;
 
     return (
         <>
             <div className="product-card" onClick={handleCardClick}>
-                <div className="product-image">
+            <div className="product-image">
                     <img src={`http://localhost:3500/uploads/${product.image}`} alt={product.name} />
                 </div>
                 <div className="product-details">
@@ -71,7 +79,7 @@ const Product = ({ productId }) => {
             {isModalOpen && (
                 <div className="modal-overlay" onClick={handleCloseModal}>
                     <div className="modal-box" onClick={(e) => e.stopPropagation()}>
-                        <button className="modal-close" onClick={handleCloseModal}>&times;</button>
+                    <button className="modal-close" onClick={handleCloseModal}>&times;</button>
                         <div className="modal-content">
                             <img 
                                 src={`http://localhost:3500/uploads/${product.image}`} 
