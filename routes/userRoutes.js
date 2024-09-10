@@ -6,10 +6,10 @@ const auth = require('../middleware/verifyJWT')
 
 // User routes
 router.route('/')
-    .get(usersControllers.getUsers)
-    .post(usersControllers.createUser)
-    .patch(usersControllers.updateUser)
-    .delete(usersControllers.deleteUser)
+    .get(auth, usersControllers.getUsers)
+    .post(auth, usersControllers.createUser)
+    .patch(auth, usersControllers.updateUser)
+    .delete(auth, usersControllers.deleteUser)
 
 // Favorites routes
 router.route('/favorites')

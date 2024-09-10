@@ -40,6 +40,11 @@ const authSlice = createSlice({
             state.status = 'idle';
             state.error = null;
         },
+        updateUserFavorites: (state, action) => {
+            if (state.user) {
+                state.user.favorites = action.payload;
+            }
+        },
         togglePersist: (state) => {
             state.persist = !state.persist;
         }
@@ -62,7 +67,7 @@ const authSlice = createSlice({
     }
 });
 
-export const { setCredentials, logOut, togglePersist } = authSlice.actions;
+export const { setCredentials, logOut, togglePersist, updateUserFavorites } = authSlice.actions;
 
 export default authSlice.reducer;
 

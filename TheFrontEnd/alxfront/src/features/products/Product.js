@@ -1,27 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as fasHeart } from '@fortawesome/free-solid-svg-icons';
 import { selectProductById } from './productsApiSlice';
-import { selectCurrentUser } from '../../features/auth/authSlice';
+import { selectCurrentUser, updateUserFavorites } from '../../features/auth/authSlice';
 import { useAddFavoriteProductMutation, useRemoveFavoriteProductMutation } from '../../features/auth/authApiSlice';
-
 
 const Product = ({ productId }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const product = useSelector((state) => selectProductById(state, productId));
     const user = useSelector(selectCurrentUser);
     const token = useSelector(state => state.auth.token);
-    console.log('User:', user);
-    console.log('Token:', token);
-    console.log('Current user in Product component:', user);
     const dispatch = useDispatch();
     
     const [addFavorite] = useAddFavoriteProductMutation();
     const [removeFavorite] = useRemoveFavoriteProductMutation();
 
-    const [isFavorite, setIsFavorite] = useState(user?.favorites?.includes(productId));
+    const isFavorite = useMemo(() => user?.favorites?.includes(productId), [user, productId]);
+
+    console.log('User:', user);
+    console.log('Token:', token);
+    console.log('Current user in Product component:', user);
 
     const handleCardClick = () => {
         setIsModalOpen(true);
@@ -55,7 +55,14 @@ const Product = ({ productId }) => {
                 console.log("Add result:", result);
             }
             console.log("Favorite update successful");
-            setIsFavorite(!isFavorite);
+            
+            // Update the user's favorites in the Redux store
+            if (user && user.favorites) {
+                const updatedFavorites = isFavorite
+                    ? user.favorites.filter(id => id !== productId)
+                    : [...user.favorites, productId];
+                dispatch(updateUserFavorites(updatedFavorites));
+            }
         } catch (err) {
             console.error('Failed to update favorite:', err);
             if (err.data) console.error('Error data:', err.data);
