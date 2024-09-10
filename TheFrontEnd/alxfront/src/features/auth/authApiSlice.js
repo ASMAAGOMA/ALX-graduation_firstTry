@@ -52,9 +52,10 @@ export const authApiSlice = apiSlice.injectEndpoints({
             async onQueryStarted(arg, { dispatch, queryFulfilled }) {
                 try {
                     const { data } = await queryFulfilled;
-                    dispatch(setCredentials({ ...data, persist: true }));
+                    console.log('Refresh successful, new data:', data);
+                    dispatch(setCredentials({ ...data }));
                 } catch (err) {
-                    console.error('Token refresh failed:', err);
+                    console.error('Refresh failed:', err);
                     dispatch(logOut());
                 }
             }

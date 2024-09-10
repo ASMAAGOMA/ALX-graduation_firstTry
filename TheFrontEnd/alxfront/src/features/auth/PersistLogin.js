@@ -1,4 +1,4 @@
-import { Outlet, Link } from "react-router-dom"
+import { Outlet } from "react-router-dom"
 import { useEffect, useRef, useState } from 'react'
 import { useRefreshMutation } from "./authApiSlice"
 import usePersist from "../../hooks/usePersist"
@@ -21,8 +21,7 @@ const PersistLogin = () => {
     }] = useRefreshMutation()
 
     useEffect(() => {
-        if (effectRan.current === true || process.env.NODE_ENV !== 'development') { // React 18 Strict Mode
-
+        if (effectRan.current === true || process.env.NODE_ENV !== 'development') {
             const verifyRefreshToken = async () => {
                 console.log('verifying refresh token')
                 try {
@@ -39,26 +38,29 @@ const PersistLogin = () => {
 
         return () => effectRan.current = true
 
-        // eslint-disable-next-line
     }, [])
 
     let content
-    if (!persist) { // persist: no
+    if (!persist) {
         console.log('no persist')
         content = <Outlet />
-    } else if (isLoading) { //persist: yes, token: no
+    } else if (isLoading) {
         console.log('loading')
         content = <p>Loading...</p>
-    } else if (isError) { //persist: yes, token: no
+    } else if (isError) {
         console.log('error')
         content = (
             <p className='errmsg'>
-               {error?.data?.message} - 
-               <Link to="/login">Please login again</Link>.
+                {`${error?.data?.message} - `}
+                <span className="nowrap">Please login again</span>.
             </p>
-         )         
-    } else if (isSuccess && trueSuccess) { //persist: yes, token: yes
+        )
+    } else if (isSuccess && trueSuccess) {
         console.log('success')
+        content = <Outlet />
+    } else if (token && isUninitialized) {
+        console.log('token and uninit')
+        console.log(isUninitialized)
         content = <Outlet />
     }
 
