@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../features/auth/authSlice';
 import { useGetFavoriteProductsQuery, useRemoveFavoriteProductMutation } from '../features/auth/authApiSlice';
 import { Link } from 'react-router-dom';
+import ProductCard from './ProductCard';
 
 const FavoriteProducts = () => {
     const user = useSelector(selectCurrentUser);
@@ -28,7 +29,7 @@ const FavoriteProducts = () => {
 
     const handleRemoveFavorite = async (productId) => {
         try {
-            await removeFavorite({ userId: user.id, productId }).unwrap();
+            await removeFavorite(productId).unwrap();
         } catch (err) {
             console.error('Failed to remove favorite:', err);
         }
@@ -40,18 +41,17 @@ const FavoriteProducts = () => {
             {favorites?.length === 0 ? (
                 <p>You haven't added any products to your favorites yet.</p>
             ) : (
-                <ul>
+                <div className="product-grid">
                     {favorites?.map(product => (
-                        <li key={product.id}>
-                            <h3>{product.name}</h3>
-                            <p>{product.description}</p>
-                            <p>Price: ${product.price}</p>
-                            <button onClick={() => handleRemoveFavorite(product.id)}>
-                                Remove from Favorites
-                            </button>
-                        </li>
+                        <ProductCard
+                            key={product.id}
+                            product={product}
+                            isFavorite={true}
+                            onFavoriteClick={() => handleRemoveFavorite(product.id)}
+                            onClick={() => {/* Handle click to open modal */}}
+                        />
                     ))}
-                </ul>
+                </div>
             )}
         </div>
     );

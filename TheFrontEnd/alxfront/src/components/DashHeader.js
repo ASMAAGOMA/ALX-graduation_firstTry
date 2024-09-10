@@ -5,8 +5,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCoffee, faHeart, faSignOutAlt, faUser } from '@fortawesome/free-solid-svg-icons';
 import { selectIsLoggedIn, selectCurrentUser } from '../features/auth/authSlice';
 import { useLogoutMutation } from '../features/auth/authApiSlice';
+import UserInfo from './UserInfo';
 
-const DashHeader = () => {
+const DashHeader = ({ user }) => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const currentUser = useSelector(selectCurrentUser);
   const dispatch = useDispatch();
@@ -56,6 +57,7 @@ const DashHeader = () => {
           <Link to="/login" className="login-button">Login</Link>
         )}
       </nav>
+      {user && <UserInfo username={user.username} />}
     </header>
   );
 };
