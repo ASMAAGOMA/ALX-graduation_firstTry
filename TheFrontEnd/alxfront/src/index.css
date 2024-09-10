@@ -1343,3 +1343,25 @@ footer {
   color: #d4a574;;
 }
 
+
+
+.logout-button {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logout-button:hover {
+  background-color: #c82333;
+}
+
+.copyright {
+  margin: 0;
+}

@@ -98,7 +98,12 @@ const FavoriteProducts = () => {
                 </div>
             </main>
             {selectedProduct && (
-                <ProductModal product={selectedProduct} onClose={handleCloseModal} />
+                <ProductModal 
+                    product={selectedProduct} 
+                    onClose={handleCloseModal} 
+                    onFavoriteClick={handleRemoveFavorite}
+                    isFavoritePage={true}
+                />
             )}
             <Footer />
         </div>

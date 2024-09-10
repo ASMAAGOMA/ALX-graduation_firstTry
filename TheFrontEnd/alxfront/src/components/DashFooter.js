@@ -22,12 +22,6 @@ const Footer = () => {
 
   return (
     <footer className="footer">
-      {isLoggedIn && (
-        <button onClick={handleLogout} className="logout-button">
-          <FontAwesomeIcon icon={faSignOutAlt} />
-          <span>Logout</span>
-        </button>
-      )}
       <div className="footer-content">
         <div className="contact-info">
           <p>
@@ -46,7 +40,15 @@ const Footer = () => {
             </a>
           </p>
         </div>
-        <p className="copyright">&copy; 2024 Cozy Corner Café. All rights reserved.</p>
+        <div className="footer-right">
+          <p className="copyright">&copy; 2024 Cozy Corner Café. All rights reserved.</p>
+          {isLoggedIn && (
+            <button onClick={handleLogout} className="logout-button">
+              <FontAwesomeIcon icon={faSignOutAlt} />
+              <span>Logout</span>
+            </button>
+          )}
+        </div>
       </div>
     </footer>
   );
