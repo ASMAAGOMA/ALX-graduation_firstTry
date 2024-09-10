@@ -4,6 +4,36 @@ const jwt = require('jsonwebtoken')
 const asyncHandler = require('express-async-handler')
 
 
+// Existing functions (login, refresh, logout, register)
+
+// @desc Get current authenticated user data
+// @route GET /auth/me
+// @access Private
+const getCurrentUser = asyncHandler(async (req, res) => {
+    const authHeader = req.headers.authorization || ''
+    const token = authHeader.split(' ')[1]
+
+    if (!token) {
+        return res.status(401).json({ message: 'Unauthorized' })
+    }
+
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, decoded) => {
+        if (err) {
+            return res.status(403).json({ message: 'Forbidden' })
+        }
+
+        const foundUser = await User.findById(decoded.UserInfo.id).select('-password').exec()
+
+        if (!foundUser) {
+            return res.status(404).json({ message: 'User not found' })
+        }
+
+        res.status(200).json(foundUser)
+    })
+})
+
+
+
 // @desc Login
 // @route POST /auth
 // @access Public
@@ -133,5 +163,6 @@ module.exports = {
     login,
     refresh,
     logout,
-    register
+    register,
+    getCurrentUser
 }

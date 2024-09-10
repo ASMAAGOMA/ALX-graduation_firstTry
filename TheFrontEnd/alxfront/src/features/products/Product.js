@@ -1,31 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as fasHeart } from '@fortawesome/free-solid-svg-icons';
 import { selectProductById } from './productsApiSlice';
-import { selectCurrentUser, selectIsLoggedIn } from '../../features/auth/authSlice';
+import { selectCurrentUser } from '../../features/auth/authSlice';
 import { useAddFavoriteProductMutation, useRemoveFavoriteProductMutation } from '../../features/auth/authApiSlice';
-import { useAddFavoriteMutation, useRemoveFavoriteMutation } from '../favorites/favoritesApiSlice';
-import { useNavigate } from 'react-router-dom';
+
 
 const Product = ({ productId }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const product = useSelector((state) => selectProductById(state, productId));
     const user = useSelector(selectCurrentUser);
-    const isLoggedIn = useSelector(selectIsLoggedIn);
-    const navigate = useNavigate();
+    const token = useSelector(state => state.auth.token);
+    console.log('User:', user);
+    console.log('Token:', token);
+    console.log('Current user in Product component:', user);
+    const dispatch = useDispatch();
     
-    const [addFavorite] = useAddFavoriteMutation();
-    const [removeFavorite] = useRemoveFavoriteMutation();
+    const [addFavorite] = useAddFavoriteProductMutation();
+    const [removeFavorite] = useRemoveFavoriteProductMutation();
 
-    const [isFavorite, setIsFavorite] = useState(false);
-
-    useEffect(() => {
-        if (user && user.favorites) {
-            setIsFavorite(user.favorites.includes(productId));
-        }
-    }, [user, productId]);
+    const [isFavorite, setIsFavorite] = useState(user?.favorites?.includes(productId));
 
     const handleCardClick = () => {
         setIsModalOpen(true);
@@ -36,30 +32,44 @@ const Product = ({ productId }) => {
     };
 
     const handleFavoriteClick = async (e) => {
+        console.log("Favorite button clicked");
         e.stopPropagation();
-        if (!isLoggedIn) {
-          navigate('/login');
-          return;
+        console.log("User:", user);
+        console.log("Product ID:", productId);
+        
+        if (!user) {
+            console.log("No user logged in");
+            alert("You must be logged in to add favorites.");
+            return;
         }
-      
+    
         try {
-          if (isFavorite) {
-            await removeFavorite(productId).unwrap();
-          } else {
-            await addFavorite(productId).unwrap();
-          }
-          setIsFavorite(!isFavorite);
+            console.log("Attempting to update favorite");
+            if (isFavorite) {
+                console.log("Removing from favorites");
+                const result = await removeFavorite(productId).unwrap();
+                console.log("Remove result:", result);
+            } else {
+                console.log("Adding to favorites");
+                const result = await addFavorite(productId).unwrap();
+                console.log("Add result:", result);
+            }
+            console.log("Favorite update successful");
+            setIsFavorite(!isFavorite);
         } catch (err) {
-          console.error('Failed to update favorite:', err);
+            console.error('Failed to update favorite:', err);
+            if (err.data) console.error('Error data:', err.data);
+            if (err.status) console.error('Error status:', err.status);
+            alert('Failed to update favorite. Please try again.');
         }
     };
-      
+
     if (!product) return null;
 
     return (
         <>
             <div className="product-card" onClick={handleCardClick}>
-            <div className="product-image">
+                <div className="product-image">
                     <img src={`http://localhost:3500/uploads/${product.image}`} alt={product.name} />
                 </div>
                 <div className="product-details">
@@ -79,7 +89,7 @@ const Product = ({ productId }) => {
             {isModalOpen && (
                 <div className="modal-overlay" onClick={handleCloseModal}>
                     <div className="modal-box" onClick={(e) => e.stopPropagation()}>
-                    <button className="modal-close" onClick={handleCloseModal}>&times;</button>
+                        <button className="modal-close" onClick={handleCloseModal}>&times;</button>
                         <div className="modal-content">
                             <img 
                                 src={`http://localhost:3500/uploads/${product.image}`} 

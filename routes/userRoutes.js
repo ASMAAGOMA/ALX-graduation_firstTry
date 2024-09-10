@@ -1,11 +1,22 @@
 const express = require('express')
 const router = express.Router()
-const userController = require('../controllers/userController')
+const usersControllers = require('../controllers/userController')
+const favoritesControllers = require('../controllers/favoritesController')
+const auth = require('../middleware/verifyJWT')
 
-router.route('/') //chain crud methods
-    .get(userController.getUser) //create
-    .post(userController.createUser) //create
-    .patch(userController.updateUser) //update
-    .delete(userController.deleteUser) //delete
+// User routes
+router.route('/')
+    .get(usersControllers.getUsers)
+    .post(usersControllers.createUser)
+    .patch(usersControllers.updateUser)
+    .delete(usersControllers.deleteUser)
+
+// Favorites routes
+router.route('/favorites')
+    .get(auth, favoritesControllers.getFavorites)
+    .post(auth, favoritesControllers.addFavorite);
+
+router.route('/favorites/:productId')
+    .delete(auth, favoritesControllers.removeFavorite)
 
 module.exports = router

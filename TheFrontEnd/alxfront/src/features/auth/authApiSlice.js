@@ -3,6 +3,10 @@ import { setCredentials, logOut } from "./authSlice";
 
 export const authApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
+        getUserData: builder.query({
+            query: () => '/auth/user',
+            providesTags: ['User']
+        }),
         login: builder.mutation({
             query: credentials => ({
                 url: '/auth/login',
@@ -12,7 +16,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
             async onQueryStarted(arg, { dispatch, queryFulfilled }) {
                 try {
                     const { data } = await queryFulfilled;
-                    dispatch(setCredentials(data));
+                    dispatch(setCredentials({ ...data, persist: true }));
                 } catch (err) {
                     console.error('Login failed:', err);
                 }
@@ -48,9 +52,10 @@ export const authApiSlice = apiSlice.injectEndpoints({
             async onQueryStarted(arg, { dispatch, queryFulfilled }) {
                 try {
                     const { data } = await queryFulfilled;
-                    dispatch(setCredentials(data));
+                    dispatch(setCredentials({ ...data, persist: true }));
                 } catch (err) {
                     console.error('Token refresh failed:', err);
+                    dispatch(logOut());
                 }
             }
         }),

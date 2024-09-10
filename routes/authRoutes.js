@@ -15,4 +15,7 @@ router.route('/refresh')
 router.route('/logout')
     .post(authController.logout)
 
+router.route('/me')
+    .get(authController.getCurrentUser)
+
 module.exports = router

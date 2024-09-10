@@ -11,8 +11,33 @@ import ProductsPage from './features/products/ProductPage';
 import RequireAuth from './components/RequireAuth';
 import FavoriteProducts from './components/FavoriteProducts';
 import PersistLogin from './features/auth/PersistLogin';
+import { selectCurrentToken } from './features/auth/authSlice';
+import { useRefreshMutation } from './features/auth/authApiSlice';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 
 function App() {
+  const dispatch = useDispatch();
+  const token = useSelector(selectCurrentToken);
+  const [refresh] = useRefreshMutation();
+
+  useEffect(() => {
+    const verifyRefreshToken = async () => {
+      console.log('verifying refresh token');
+      try {
+        await refresh().unwrap();
+        console.log('refresh token still valid');
+      } catch (err) {
+        console.error('refresh token expired');
+        // handle error - redirect to login or show message
+      }
+    }
+
+    if (!token) {
+      verifyRefreshToken();
+    }
+  }, []);
   return (
     <Routes>
       <Route element={<PersistLogin />}>

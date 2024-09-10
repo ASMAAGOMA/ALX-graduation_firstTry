@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from './authSlice';
+import { fetchUserData } from './authSlice'; // Import fetchUserData thunk
 import { useLoginMutation } from './authApiSlice';
 
 const Login = () => {
@@ -21,12 +22,25 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const userData = await login({ email, password }).unwrap();
-            dispatch(setCredentials({ ...userData, user: userData.user }));
+            console.log('Attempting login with email:', email);
+            const loginData = await login({ email, password }).unwrap();
+            console.log('Login successful. Full login data received:', loginData);
+
+            // Set credentials after login
+            dispatch(setCredentials({ ...loginData }));
+
+            // Fetch user data using the token from login
+            const accessToken = loginData.accessToken;
+            if (accessToken) {
+                await dispatch(fetchUserData(accessToken)).unwrap();
+            }
+
+            navigate('/menu'); // Navigate to the menu page after successful login
+
             setEmail('');
             setPassword('');
-            navigate('/menu');
         } catch (err) {
+            console.error('Login error:', err);
             if (!err.status) {
                 setErrMsg('No Server Response');
             } else if (err.status === 400) {
@@ -34,7 +48,7 @@ const Login = () => {
             } else if (err.status === 401) {
                 setErrMsg('Unauthorized');
             } else {
-                setErrMsg(err.data?.message);
+                setErrMsg(err.data?.message || 'Login Failed');
             }
         }
     };
