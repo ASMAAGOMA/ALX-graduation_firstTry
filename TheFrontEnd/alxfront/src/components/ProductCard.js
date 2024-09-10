@@ -3,9 +3,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as fasHeart } from '@fortawesome/free-solid-svg-icons';
 
-const ProductCard = ({ product, isFavorite, onFavoriteClick, onClick }) => {
+const ProductCard = ({ product, isFavorite, onFavoriteClick, onOpenModal }) => {
   return (
-    <div className="product-card" onClick={onClick}>
+    <div className="product-card" onClick={() => onOpenModal(product)}>
       <div className="product-image">
         <img src={`http://localhost:3500/uploads/${product.image}`} alt={product.name} />
       </div>

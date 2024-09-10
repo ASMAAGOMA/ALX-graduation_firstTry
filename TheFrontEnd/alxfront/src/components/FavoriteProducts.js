@@ -1,30 +1,56 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../features/auth/authSlice';
 import { useGetFavoriteProductsQuery, useRemoveFavoriteProductMutation } from '../features/auth/authApiSlice';
 import { Link } from 'react-router-dom';
 import ProductCard from './ProductCard';
+import DashHeader from './DashHeader';
+import Footer from './DashFooter';
+import ProductModal from './ProductModal ';
 
 const FavoriteProducts = () => {
     const user = useSelector(selectCurrentUser);
     const { data: favorites, isLoading, isError, error } = useGetFavoriteProductsQuery();
     const [removeFavorite] = useRemoveFavoriteProductMutation();
+    const [selectedProduct, setSelectedProduct] = useState(null);
 
     if (!user) {
         return (
-            <div className="favorite-products">
-                <h2>Your Favorite Products</h2>
-                <p>You must be logged in to view your favorites. <Link to="/login">Login here</Link></p>
+            <div className="page-container">
+                <DashHeader />
+                <main className="main-content">
+                    <div className="favorite-products">
+                        <h2>Your Favorite Products</h2>
+                        <p>You must be logged in to view your favorites. <Link to="/login">Login here</Link></p>
+                    </div>
+                </main>
+                <Footer />
             </div>
         );
     }
 
     if (isLoading) {
-        return <div>Loading favorite products...</div>;
+        return (
+            <div className="page-container">
+                <DashHeader />
+                <main className="main-content">
+                    <div>Loading favorite products...</div>
+                </main>
+                <Footer />
+            </div>
+        );
     }
 
     if (isError) {
-        return <div>Error loading favorites: {error.toString()}</div>;
+        return (
+            <div className="page-container">
+                <DashHeader />
+                <main className="main-content">
+                    <div>Error loading favorites: {error.toString()}</div>
+                </main>
+                <Footer />
+            </div>
+        );
     }
 
     const handleRemoveFavorite = async (productId) => {
@@ -35,24 +61,41 @@ const FavoriteProducts = () => {
         }
     };
 
+    const handleOpenModal = (product) => {
+        setSelectedProduct(product);
+    };
+
+    const handleCloseModal = () => {
+        setSelectedProduct(null);
+    };
+
     return (
-        <div className="favorite-products">
-            <h2>Your Favorite Products</h2>
-            {favorites?.length === 0 ? (
-                <p>You haven't added any products to your favorites yet.</p>
-            ) : (
-                <div className="product-grid">
-                    {favorites?.map(product => (
-                        <ProductCard
-                            key={product.id}
-                            product={product}
-                            isFavorite={true}
-                            onFavoriteClick={() => handleRemoveFavorite(product.id)}
-                            onClick={() => {/* Handle click to open modal */}}
-                        />
-                    ))}
+        <div className="page-container">
+            <DashHeader />
+            <main className="main-content">
+                <div className="favorite-products">
+                    <h2>Your Favorite Products</h2>
+                    {favorites?.length === 0 ? (
+                        <p>You haven't added any products to your favorites yet.</p>
+                    ) : (
+                        <div className="product-grid">
+                            {favorites?.map(product => (
+                                <ProductCard
+                                    key={product.id}
+                                    product={product}
+                                    isFavorite={true}
+                                    onFavoriteClick={() => handleRemoveFavorite(product.id)}
+                                    onOpenModal={handleOpenModal}
+                                />
+                            ))}
+                        </div>
+                    )}
                 </div>
+            </main>
+            {selectedProduct && (
+                <ProductModal product={selectedProduct} onClose={handleCloseModal} />
             )}
+            <Footer />
         </div>
     );
 };

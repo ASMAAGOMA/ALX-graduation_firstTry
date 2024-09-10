@@ -3,7 +3,9 @@ import CuteCupcakeIcon from './CuteCupcakeIcon';
 
 const UserInfo = ({ username }) => (
   <div className="user-info">
-    <CuteCupcakeIcon size={32} />
+    <div className="cupcake-icon-wrapper">
+      <CuteCupcakeIcon size={64} />
+    </div>
     <span className="username">{username}</span>
   </div>
 );

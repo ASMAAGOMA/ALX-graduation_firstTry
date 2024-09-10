@@ -7,10 +7,9 @@ import { selectIsLoggedIn, selectCurrentUser } from '../features/auth/authSlice'
 import { useLogoutMutation } from '../features/auth/authApiSlice';
 import UserInfo from './UserInfo';
 
-const DashHeader = ({ user }) => {
+const DashHeader = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const currentUser = useSelector(selectCurrentUser);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [logout] = useLogoutMutation();
 
@@ -43,10 +42,7 @@ const DashHeader = ({ user }) => {
           <>
             <Link to="/order" className="order-button">Order Now</Link>
             {currentUser && (
-              <div className="user-info">
-                <FontAwesomeIcon icon={faUser} />
-                <span>{currentUser.name}</span>
-              </div>
+              <UserInfo username={currentUser.name} />
             )}
             <button onClick={handleLogout} className="logout-button">
               <FontAwesomeIcon icon={faSignOutAlt} />
@@ -57,7 +53,6 @@ const DashHeader = ({ user }) => {
           <Link to="/login" className="login-button">Login</Link>
         )}
       </nav>
-      {user && <UserInfo username={user.username} />}
     </header>
   );
 };
