@@ -1,26 +1,17 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCoffee, faHeart, faSignOutAlt, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faCoffee, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { selectIsLoggedIn, selectCurrentUser } from '../features/auth/authSlice';
-import { useLogoutMutation } from '../features/auth/authApiSlice';
 import UserInfo from './UserInfo';
 
 const DashHeader = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const currentUser = useSelector(selectCurrentUser);
-  const navigate = useNavigate();
-  const [logout] = useLogoutMutation();
+  const location = useLocation();
 
-  const handleLogout = async () => {
-    try {
-      await logout().unwrap();
-      navigate('/');
-    } catch (err) {
-      console.error('Failed to log out:', err);
-    }
-  };
+  const isActive = (path) => location.pathname === path;
 
   return (
     <header className="header">
@@ -29,25 +20,18 @@ const DashHeader = () => {
         <span>Cozy Corner Café</span>
       </Link>
       <nav>
-        <Link to="/menu">Menu</Link>
-        <Link to="/about">About</Link>
-        <Link to="/contact">Contact</Link>
+      <Link to="/menu" className={`nav-link ${isActive('/menu') ? 'active' : ''}`}>Menu</Link>
+        <Link to="/about" className={`nav-link ${isActive('/about') ? 'active' : ''}`}>About</Link>
+        <Link to="/contact" className={`nav-link ${isActive('/contact') ? 'active' : ''}`}>Contact</Link>
         {isLoggedIn && (
-          <Link to="/favorites" className="favorites-link">
-            <FontAwesomeIcon icon={faHeart} />
+          <Link to="/favorites" className={`favorites-link ${isActive('/favorites') ? 'active' : ''}`}>
+            <FontAwesomeIcon icon={faHeart} style={{ color: isActive('/favorites') ? 'red' : 'currentColor' }} />
             <span className="sr-only">Favorites</span>
           </Link>
         )}
         {isLoggedIn ? (
           <>
-            <Link to="/order" className="order-button">Order Now</Link>
-            {currentUser && (
-              <UserInfo username={currentUser.name} />
-            )}
-            <button onClick={handleLogout} className="logout-button">
-              <FontAwesomeIcon icon={faSignOutAlt} />
-              <span>Logout</span>
-            </button>
+            {currentUser && <UserInfo username={currentUser.name} />}
           </>
         ) : (
           <Link to="/login" className="login-button">Login</Link>

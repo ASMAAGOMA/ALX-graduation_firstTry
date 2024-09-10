@@ -7,10 +7,12 @@ import ProductCard from './ProductCard';
 import DashHeader from './DashHeader';
 import Footer from './DashFooter';
 import ProductModal from './ProductModal ';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
 const FavoriteProducts = () => {
     const user = useSelector(selectCurrentUser);
-    const { data: favorites, isLoading, isError, error } = useGetFavoriteProductsQuery();
+    const { data: favorites, isLoading, isError, error, refetch } = useGetFavoriteProductsQuery();
     const [removeFavorite] = useRemoveFavoriteProductMutation();
     const [selectedProduct, setSelectedProduct] = useState(null);
 
@@ -56,6 +58,7 @@ const FavoriteProducts = () => {
     const handleRemoveFavorite = async (productId) => {
         try {
             await removeFavorite(productId).unwrap();
+            refetch(); // Refresh the list of favorites
         } catch (err) {
             console.error('Failed to remove favorite:', err);
         }
@@ -74,7 +77,9 @@ const FavoriteProducts = () => {
             <DashHeader />
             <main className="main-content">
                 <div className="favorite-products">
-                    <h2>Your Favorite Products</h2>
+                    <h2>
+                        <FontAwesomeIcon icon={faHeart} style={{color: 'red'}} /> Your Favorite Products
+                    </h2>
                     {favorites?.length === 0 ? (
                         <p>You haven't added any products to your favorites yet.</p>
                     ) : (
@@ -83,9 +88,9 @@ const FavoriteProducts = () => {
                                 <ProductCard
                                     key={product.id}
                                     product={product}
-                                    isFavorite={true}
-                                    onFavoriteClick={() => handleRemoveFavorite(product.id)}
+                                    onFavoriteClick={handleRemoveFavorite}
                                     onOpenModal={handleOpenModal}
+                                    isFavoritePage={true}
                                 />
                             ))}
                         </div>

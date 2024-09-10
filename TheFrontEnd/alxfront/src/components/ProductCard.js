@@ -1,9 +1,13 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as fasHeart } from '@fortawesome/free-solid-svg-icons';
 
-const ProductCard = ({ product, isFavorite, onFavoriteClick, onOpenModal }) => {
+const ProductCard = ({ product, onFavoriteClick, onOpenModal, isFavoritePage = false }) => {
+  const handleFavoriteClick = (e) => {
+    e.stopPropagation();
+    onFavoriteClick(product.id);
+  };
+
   return (
     <div className="product-card" onClick={() => onOpenModal(product)}>
       <div className="product-image">
@@ -15,14 +19,11 @@ const ProductCard = ({ product, isFavorite, onFavoriteClick, onOpenModal }) => {
         <p className="product-category">{product.category}</p>
       </div>
       <button 
-        className={`favorite-button ${isFavorite ? 'favorite' : ''}`} 
-        onClick={(e) => {
-          e.stopPropagation();
-          onFavoriteClick();
-        }}
+        className={`favorite-button ${isFavoritePage ? 'favorite' : ''}`}
+        onClick={handleFavoriteClick}
       >
-        <FontAwesomeIcon icon={isFavorite ? fasHeart : farHeart} />
-        <span className="sr-only">Favorite</span>
+        <FontAwesomeIcon icon={fasHeart} style={{color: isFavoritePage ? 'red' : 'currentColor'}} />
+        <span className="sr-only">{isFavoritePage ? 'Remove from Favorites' : 'Add to Favorites'}</span>
       </button>
     </div>
   );
