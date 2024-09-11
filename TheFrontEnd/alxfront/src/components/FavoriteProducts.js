@@ -7,7 +7,7 @@ import ProductCard from './ProductCard';
 import DashHeader from './DashHeader';
 import Footer from './DashFooter';
 import ProductModal from './ProductModal ';
-import {updateUserFavorites } from '../features/auth/authSlice';
+import { updateUserFavorites } from '../features/auth/authSlice';
 
 const FavoriteProducts = () => {
     const user = useSelector(selectCurrentUser);
@@ -68,7 +68,6 @@ const FavoriteProducts = () => {
             console.error('Failed to remove favorite:', err);
         }
     };
-    
 
     const handleOpenModal = (product) => {
         setSelectedProduct(product);
@@ -102,7 +101,12 @@ const FavoriteProducts = () => {
                 </div>
             </main>
             {selectedProduct && (
-                <ProductModal product={selectedProduct} onClose={handleCloseModal} />
+                <ProductModal 
+                    product={selectedProduct} 
+                    onClose={handleCloseModal} 
+                    onFavoriteClick={handleRemoveFavorite}
+                    isFavorite={true}
+                />
             )}
             <Footer />
         </div>

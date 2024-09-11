@@ -2,12 +2,17 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faHeart } from '@fortawesome/free-solid-svg-icons';
 
-const ProductModal = ({ product, onClose, onFavoriteClick, isFavoritePage }) => {
+const ProductModal = ({ product, onClose, onFavoriteClick, isFavorite }) => {
   if (!product) return null;
 
   const handleFavoriteClick = (e) => {
     e.stopPropagation();
-    onFavoriteClick(product.id);
+    onFavoriteClick(product.id || product._id);
+
+    // Close the modal after the favorite button is clicked (removal)
+    if (isFavorite) {
+      onClose(); // This closes the modal after the product is removed
+    }
   };
 
   return (
@@ -28,11 +33,11 @@ const ProductModal = ({ product, onClose, onFavoriteClick, isFavoritePage }) => 
             <p><strong>Category:</strong> {product.category}</p>
             <p><strong>Description:</strong> {product.description}</p>
             <button 
-              className={`favorite-button ${isFavoritePage ? 'favorite' : ''}`}
+              className={`favorite-button ${isFavorite ? 'favorite' : ''}`}
               onClick={handleFavoriteClick}
             >
-              <FontAwesomeIcon icon={faHeart} style={{color: isFavoritePage ? 'red' : 'currentColor'}} />
-              <span className="sr-only">{isFavoritePage ? 'Remove from Favorites' : 'Add to Favorites'}</span>
+              <FontAwesomeIcon icon={faHeart} style={{color: isFavorite ? 'red' : 'currentColor'}} />
+              <span className="sr-only">{isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}</span>
             </button>
           </div>
         </div>
