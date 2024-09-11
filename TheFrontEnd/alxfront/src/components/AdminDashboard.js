@@ -97,7 +97,7 @@ const AdminDashboard = () => {
     return (
         <div className="page-container">
             <DashHeader />
-            <main className="main-content admin-dashboard">
+            <main className="admin-dashboard">
                 <h1 className="dashboard-title">Admin Dashboard</h1>
 
                 <div className="dashboard-content">
@@ -131,10 +131,10 @@ const AdminDashboard = () => {
                                         <p>Description: {product.description}</p>
                                     </div>
                                     <div className="product-actions">
-                                        <button onClick={() => setEditProduct(product)} className="btn btn-edit">
+                                        <button onClick={() => setEditProduct(product)} className="btn-edit">
                                             <Edit size={16} /> Edit
                                         </button>
-                                        <button onClick={() => handleDeleteProduct(product._id)} className="btn btn-delete">
+                                        <button onClick={() => handleDeleteProduct(product._id)} className="btn-delete">
                                             <Trash2 size={16} /> Delete
                                         </button>
                                     </div>
@@ -145,8 +145,8 @@ const AdminDashboard = () => {
                 </div>
 
                 {editProduct && (
-                    <div className="edit-product-modal">
-                        <div className="modal-content">
+                    <div className="admin-dashboard-modal">
+                        <div className="admin-dashboard-modal-content">
                             <h2>Edit Product</h2>
                             <form onSubmit={handleUpdateProduct} className="product-form">
                                 <input
@@ -183,7 +183,7 @@ const AdminDashboard = () => {
                                     name="image" 
                                     onChange={(e) => setEditProduct({ ...editProduct, image: e.target.files[0] })} 
                                 />
-                                <div className="modal-actions">
+                                <div className="admin-dashboard-modal-actions">
                                     <button type="submit" className="btn btn-primary">Update Product</button>
                                     <button type="button" onClick={() => setEditProduct(null)} className="btn btn-secondary">Cancel</button>
                                 </div>

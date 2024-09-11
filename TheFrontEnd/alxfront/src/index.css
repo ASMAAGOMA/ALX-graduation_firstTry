@@ -1380,16 +1380,17 @@ footer {
 
 
 /* Admin Dashboard Styles */
+/* Admin Dashboard Styles */
+/* AdminDashboard.css */
+
 .admin-dashboard {
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
-  background-color: #3b2a1c; /* Dark brown background for the dashboard */
-  color: #f5f5f5; /* Light text color for readability */
 }
 
 .dashboard-title {
-  color: #f5f5f5; /* Lighter text color */
+  color: var(--DARK-BROWN);
   font-size: 2rem;
   margin-bottom: 1.5rem;
 }
@@ -1400,8 +1401,7 @@ footer {
   gap: 2rem;
 }
 
-.product-form-section,
-.product-list-section {
+.product-form-section, .product-list-section {
   width: 100%;
 }
 
@@ -1411,14 +1411,10 @@ footer {
   gap: 1rem;
 }
 
-.product-form input,
-.product-form textarea,
-.product-form select {
+.product-form input, .product-form textarea, .product-form select {
   padding: 0.5rem;
-  border: 1px solid #5c3d2c; /* Darker brown border */
+  border: 1px solid var(--LIGHT-BROWN);
   border-radius: 4px;
-  background-color: #4a2a1b; /* Darker brown input background */
-  color: #f5f5f5; /* Light text color in inputs */
 }
 
 .product-grid {
@@ -1428,10 +1424,10 @@ footer {
 }
 
 .product-item {
-  background-color: #4a2a1b; /* Darker brown background for products */
+  background-color: var(--WHITE);
   border-radius: 8px;
   padding: 1rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Slightly darker shadow */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   display: flex;
   flex-direction: column;
 }
@@ -1445,12 +1441,12 @@ footer {
 }
 
 .product-details h3 {
-  color: #f5f5f5; /* Lighter text color */
+  color: var(--DARK-BROWN);
   margin-bottom: 0.5rem;
 }
 
 .product-details p {
-  color: #ccc; /* Slightly lighter text color */
+  color: var(--DARK-BROWN);
   margin-bottom: 0.25rem;
 }
 
@@ -1472,51 +1468,313 @@ footer {
 }
 
 .btn-primary {
-  background-color: #6a3b2c; /* Darker brown button background */
-  color: #f5f5f5;
+  background-color: var(--LIGHT-BROWN);
+  color: var(--DARK-BROWN);
 }
 
 .btn-secondary {
-  background-color: #5c3d2c; /* Darker brown button background */
-  color: #f5f5f5;
+  background-color: var(--CREAM);
+  color: var(--DARK-BROWN);
 }
 
 .btn-edit {
-  background-color: #6a3b2c; /* Darker brown button background */
-  color: #f5f5f5;
+  background-color: var(--LIGHT-BROWN);
+  color: var(--DARK-BROWN);
 }
 
 .btn-delete {
-  background-color: #a03a2e; /* Darker red-brown for delete button */
-  color: #fff;
+  background-color: #ff6b6b;
+  color: var(--WHITE);
 }
 
-.edit-product-modal {
+.admin-dashboard-modal {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.7); /* Slightly dark overlay */
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.modal-content {
-  background-color: #3b2a1c; /* Darker brown background for the modal */
+.admin-dashboard-modal-content {
+  background-color: var(--WHITE);
   padding: 2rem;
   border-radius: 8px;
   width: 90%;
   max-width: 500px;
-  color: #f5f5f5; /* Lighter text color */
 }
 
-.modal-actions {
+.admin-dashboard-modal-content h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.admin-dashboard-modal-actions {
   display: flex;
   justify-content: flex-end;
   gap: 1rem;
   margin-top: 1rem;
+}
+
+/* Warning styles */
+.warning {
+  background-color: #fff3cd;
+  border: 1px solid #ffeeba;
+  color: #856404;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+  border-radius: 0.25rem;
+}
+
+@media (max-width: 768px) {
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+}
+/* Admin Dashboard Styles */
+/* AdminDashboard.css */
+
+:root {
+  --primary-color: #4a3832;
+  --secondary-color: #d4a574;
+  --text-color: #333;
+  --background-color: #f9f5f1;
+  --accent-color: #8c7b75;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.admin-dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.dashboard-title {
+  color: var(--primary-color);
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.dashboard-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.product-form-section, .product-list-section {
+  width: 100%;
+}
+
+.product-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.product-form input, .product-form textarea, .product-form select {
+  padding: 0.5rem;
+  border: 1px solid var(--accent-color);
+  border-radius: 4px;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.product-item {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.product-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.product-details h3 {
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+.product-details p {
+  color: var(--text-color);
+  margin-bottom: 0.25rem;
+}
+
+.product-actions {
+  display: flex;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  margin-top: auto;
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary {
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+}
+
+.btn-secondary {
+  background-color: var(--accent-color);
+  color: #fff;
+}
+
+.btn-edit {
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+}
+
+.btn-delete {
+  background-color: #ff6b6b;
+  color: #fff;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+/* Update box styles */
+.update-box {
+  background-color: #fff;
+  border: 2px solid var(--secondary-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.update-box h3 {
+  color: var(--primary-color);
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.update-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.update-form input,
+.update-form textarea,
+.update-form select {
+  padding: 0.75rem;
+  border: 1px solid var(--accent-color);
+  border-radius: 4px;
+  font-size: 1rem;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.update-form input:focus,
+.update-form textarea:focus,
+.update-form select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(74, 56, 50, 0.2);
+}
+
+.update-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.btn-update {
+  background-color: var(--primary-color);
+  color: #fff;
+}
+
+.btn-cancel {
+  background-color: var(--accent-color);
+  color: #fff;
+}
+
+/* Admin dashboard modal styles */
+.admin-dashboard-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.admin-dashboard-modal-content {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.admin-dashboard-modal-content h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.admin-dashboard-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+/* Warning styles */
+.warning {
+  background-color: #fff3cd;
+  border: 1px solid #ffeeba;
+  color: #856404;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+  border-radius: 0.25rem;
+  font-weight: 500;
 }
 
 @media (max-width: 768px) {
