@@ -12,6 +12,7 @@ const DashHeader = () => {
   const location = useLocation();
 
   const isActive = (path) => location.pathname === path;
+  const adminEmails = ['asmaagadallaah@gmail.com', 'asmaaGad@gmail.com']
 
   return (
     <header className="header">
@@ -34,6 +35,11 @@ const DashHeader = () => {
             <FontAwesomeIcon icon={faUserCog} />
             <span className="sr-only">Admin Dashboard</span>
           </Link>
+        )}
+        {isLoggedIn && adminEmails.includes(currentUser?.email) && (
+          <Link to="/admin" className="dashboard-link">
+            Dashboard
+            </Link>
         )}
         {isLoggedIn ? (
           <>

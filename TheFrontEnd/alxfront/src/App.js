@@ -13,7 +13,6 @@ import FavoriteProducts from './components/FavoriteProducts';
 import AdminDashboard from './components/AdminDashboard';
 import PersistLogin from './features/auth/PersistLogin';
 import { selectCurrentToken } from './features/auth/authSlice';
-import PrivateAdminRoute from './components/PrivateAdminRoute';
 import { useRefreshMutation } from './features/auth/authApiSlice';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -44,14 +43,6 @@ function App() {
     <Routes>
       <Route element={<PersistLogin />}>
         <Route path="/login" element={<Login />} />
-        <Route 
-            path="/admin" 
-            element={
-              <PrivateAdminRoute>
-                <AdminDashboard />
-              </PrivateAdminRoute>
-            } 
-          />
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
@@ -62,6 +53,12 @@ function App() {
         <Route element={<RequireAuth />}>
           <Route path="/order" element={<OrderNowPage />} />
         </Route>
+        <Route 
+            path="/admin" 
+            element={
+                <AdminDashboard />
+            } 
+          />
       </Route>
     </Routes>
   );
