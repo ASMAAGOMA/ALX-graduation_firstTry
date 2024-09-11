@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { selectCurrentUser } from '../features/auth/authSlice';
 import { useGetFavoriteProductsQuery, useRemoveFavoriteProductMutation } from '../features/auth/authApiSlice';
 import { Link } from 'react-router-dom';
@@ -7,14 +7,14 @@ import ProductCard from './ProductCard';
 import DashHeader from './DashHeader';
 import Footer from './DashFooter';
 import ProductModal from './ProductModal ';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import {updateUserFavorites } from '../features/auth/authSlice';
 
 const FavoriteProducts = () => {
     const user = useSelector(selectCurrentUser);
-    const { data: favorites, isLoading, isError, error, refetch } = useGetFavoriteProductsQuery();
+    const { data: favorites, isLoading, isError, error } = useGetFavoriteProductsQuery();
     const [removeFavorite] = useRemoveFavoriteProductMutation();
     const [selectedProduct, setSelectedProduct] = useState(null);
+    const dispatch = useDispatch();
 
     if (!user) {
         return (
@@ -58,11 +58,17 @@ const FavoriteProducts = () => {
     const handleRemoveFavorite = async (productId) => {
         try {
             await removeFavorite(productId).unwrap();
-            refetch(); // Refresh the list of favorites
+            
+            // Update the user's favorites in the Redux store
+            if (user && user.favorites) {
+                const updatedFavorites = user.favorites.filter(id => id !== productId);
+                dispatch(updateUserFavorites(updatedFavorites));
+            }
         } catch (err) {
             console.error('Failed to remove favorite:', err);
         }
     };
+    
 
     const handleOpenModal = (product) => {
         setSelectedProduct(product);
@@ -77,20 +83,18 @@ const FavoriteProducts = () => {
             <DashHeader />
             <main className="main-content">
                 <div className="favorite-products">
-                    <h2>
-                        <FontAwesomeIcon icon={faHeart} style={{color: 'red'}} /> Your Favorite Products
-                    </h2>
+                    <h2>Your Favorite Products</h2>
                     {favorites?.length === 0 ? (
                         <p>You haven't added any products to your favorites yet.</p>
                     ) : (
                         <div className="product-grid">
                             {favorites?.map(product => (
                                 <ProductCard
-                                    key={product.id}
-                                    product={product}
-                                    onFavoriteClick={handleRemoveFavorite}
-                                    onOpenModal={handleOpenModal}
-                                    isFavoritePage={true}
+                                key={product._id || product.id}
+                                product={product}
+                                isFavorite={true}
+                                onFavoriteClick={handleRemoveFavorite}
+                                onOpenModal={handleOpenModal}
                                 />
                             ))}
                         </div>
@@ -98,12 +102,7 @@ const FavoriteProducts = () => {
                 </div>
             </main>
             {selectedProduct && (
-                <ProductModal 
-                    product={selectedProduct} 
-                    onClose={handleCloseModal} 
-                    onFavoriteClick={handleRemoveFavorite}
-                    isFavoritePage={true}
-                />
+                <ProductModal product={selectedProduct} onClose={handleCloseModal} />
             )}
             <Footer />
         </div>

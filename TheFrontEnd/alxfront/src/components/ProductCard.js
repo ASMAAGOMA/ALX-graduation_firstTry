@@ -1,12 +1,26 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as fasHeart } from '@fortawesome/free-solid-svg-icons';
 
-const ProductCard = ({ product, onFavoriteClick, onOpenModal, isFavoritePage = false }) => {
+const ProductCard = ({ product, isFavorite, onFavoriteClick, onOpenModal }) => {
+  console.log('ProductCard received product:', product);
+
   const handleFavoriteClick = (e) => {
     e.stopPropagation();
-    onFavoriteClick(product.id);
+    const id = product?._id || product?.id;
+    console.log('Attempting to remove favorite with ID:', id);
+    if (id) {
+      onFavoriteClick(id);
+    } else {
+      console.error('Product ID is undefined', product);
+    }
   };
+
+  if (!product) {
+    console.error('Product is undefined');
+    return null;
+  }
 
   return (
     <div className="product-card" onClick={() => onOpenModal(product)}>
@@ -19,11 +33,11 @@ const ProductCard = ({ product, onFavoriteClick, onOpenModal, isFavoritePage = f
         <p className="product-category">{product.category}</p>
       </div>
       <button 
-        className={`favorite-button ${isFavoritePage ? 'favorite' : ''}`}
+        className={`favorite-button ${isFavorite ? 'favorite' : ''}`} 
         onClick={handleFavoriteClick}
       >
-        <FontAwesomeIcon icon={fasHeart} style={{color: isFavoritePage ? 'red' : 'currentColor'}} />
-        <span className="sr-only">{isFavoritePage ? 'Remove from Favorites' : 'Add to Favorites'}</span>
+        <FontAwesomeIcon icon={isFavorite ? fasHeart : farHeart} />
+        <span className="sr-only">Favorite</span>
       </button>
     </div>
   );
