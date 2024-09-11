@@ -46,20 +46,20 @@ export const authApiSlice = apiSlice.injectEndpoints({
         }),
         refresh: builder.mutation({
             query: () => ({
-                url: '/auth/refresh',
-                method: 'GET',
+              url: '/auth/refresh',
+              method: 'GET',
             }),
             async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-                try {
-                    const { data } = await queryFulfilled;
-                    console.log('Refresh successful, new data:', data);
-                    dispatch(setCredentials({ ...data }));
-                } catch (err) {
-                    console.error('Refresh failed:', err);
-                    dispatch(logOut());
-                }
+              try {
+                const { data } = await queryFulfilled;
+                console.log('Refresh successful, new data:', data);
+                const { accessToken } = data;
+                dispatch(setCredentials({ accessToken }));
+              } catch (err) {
+                console.error('Refresh failed:', err);
+              }
             }
-        }),
+          }),
         getCurrentUser: builder.query({
             query: () => '/auth/me',
             providesTags: ['User']

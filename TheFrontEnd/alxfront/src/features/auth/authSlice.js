@@ -22,13 +22,14 @@ const authSlice = createSlice({
         token: null, 
         isLoggedIn: false,
         persist: false,
-        status: 'idle', // For tracking request status
-        error: null // For tracking errors
+        status: 'idle',
+        error: null
     },
     reducers: {
         setCredentials: (state, action) => {
-            const { accessToken } = action.payload;
+            const { accessToken, user } = action.payload;
             state.token = accessToken;
+            state.user = user; // Add this line
             state.isLoggedIn = true;
             console.log('setCredentials reducer called. New state:', state);
         },
@@ -72,9 +73,22 @@ export const { setCredentials, logOut, togglePersist, updateUserFavorites } = au
 export default authSlice.reducer;
 
 // Selectors to access state
-export const selectCurrentUser = (state) => state.auth.user;
-export const selectCurrentToken = (state) => state.auth.token;
-export const selectIsLoggedIn = (state) => state.auth.isLoggedIn;
+export const selectCurrentUser = (state) => {
+    console.log('selectCurrentUser called. Current user:', state.auth.user);
+    return state.auth.user;
+};
+
+export const selectCurrentToken = (state) => {
+    console.log('selectCurrentToken called. Current token:', state.auth.token);
+    return state.auth.token;
+};
+
+export const selectIsLoggedIn = (state) => {
+    console.log('selectIsLoggedIn called. Is logged in:', state.auth.isLoggedIn);
+    return state.auth.isLoggedIn;
+};
 export const selectPersist = (state) => state.auth.persist;
 export const selectAuthStatus = (state) => state.auth.status;
 export const selectAuthError = (state) => state.auth.error;
+export const selectIsAdmin = (state) => 
+    state.auth.user?.roles.includes('Admin') || false;

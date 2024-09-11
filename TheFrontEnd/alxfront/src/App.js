@@ -10,8 +10,10 @@ import Register from './features/auth/Register';
 import ProductsPage from './features/products/ProductPage';
 import RequireAuth from './components/RequireAuth';
 import FavoriteProducts from './components/FavoriteProducts';
+import AdminDashboard from './components/AdminDashboard';
 import PersistLogin from './features/auth/PersistLogin';
 import { selectCurrentToken } from './features/auth/authSlice';
+import PrivateAdminRoute from './components/PrivateAdminRoute';
 import { useRefreshMutation } from './features/auth/authApiSlice';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -41,12 +43,20 @@ function App() {
   return (
     <Routes>
       <Route element={<PersistLogin />}>
+        <Route path="/login" element={<Login />} />
+        <Route 
+            path="/admin" 
+            element={
+              <PrivateAdminRoute>
+                <AdminDashboard />
+              </PrivateAdminRoute>
+            } 
+          />
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/menu" element={<MenuPage />} />
         <Route path="/menu/:category" element={<ProductsPage />} />
-        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/favorites" element={<FavoriteProducts />} />
         <Route element={<RequireAuth />}>

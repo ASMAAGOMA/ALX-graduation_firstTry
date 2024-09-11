@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCoffee, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faCoffee, faHeart, faUserCog } from '@fortawesome/free-solid-svg-icons';
 import { selectIsLoggedIn, selectCurrentUser } from '../features/auth/authSlice';
 import UserInfo from './UserInfo';
 
@@ -20,13 +20,19 @@ const DashHeader = () => {
         <span>Cozy Corner Café</span>
       </Link>
       <nav>
-      <Link to="/menu" className={`nav-link ${isActive('/menu') ? 'active' : ''}`}>Menu</Link>
+        <Link to="/menu" className={`nav-link ${isActive('/menu') ? 'active' : ''}`}>Menu</Link>
         <Link to="/about" className={`nav-link ${isActive('/about') ? 'active' : ''}`}>About</Link>
         <Link to="/contact" className={`nav-link ${isActive('/contact') ? 'active' : ''}`}>Contact</Link>
         {isLoggedIn && (
           <Link to="/favorites" className={`favorites-link ${isActive('/favorites') ? 'active' : ''}`}>
             <FontAwesomeIcon icon={faHeart} style={{ color: isActive('/favorites') ? 'red' : 'currentColor' }} />
             <span className="sr-only">Favorites</span>
+          </Link>
+        )}
+        {isLoggedIn && currentUser?.role === 'admin' && (
+          <Link to="/admin" className={`admin-link ${isActive('/admin') ? 'active' : ''}`}>
+            <FontAwesomeIcon icon={faUserCog} />
+            <span className="sr-only">Admin Dashboard</span>
           </Link>
         )}
         {isLoggedIn ? (

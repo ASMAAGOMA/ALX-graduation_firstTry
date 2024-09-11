@@ -32,11 +32,37 @@ export const productsApiSlice = apiSlice.injectEndpoints({
                 } else return [{ type: 'Product', id: 'LIST' }]
             }
         }),
+        addNewProduct: builder.mutation({
+            query: initialProduct => ({
+                url: '/menu',
+                method: 'POST',
+                body: initialProduct
+            }),
+            invalidatesTags: [{ type: 'Product', id: "LIST" }]
+        }),
+        updateProduct: builder.mutation({
+            query: product => ({
+                url: `/menu/${product.id}`,
+                method: 'PATCH',
+                body: product
+            }),
+            invalidatesTags: (result, error, arg) => [{ type: 'Product', id: arg.id }]
+        }),
+        deleteProduct: builder.mutation({
+            query: id => ({
+                url: `/menu/${id}`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: (result, error, arg) => [{ type: 'Product', id: arg }]
+        }),
     }),
 })
 
 export const {
     useGetProductsQuery,
+    useAddNewProductMutation,
+    useUpdateProductMutation,
+    useDeleteProductMutation,
 } = productsApiSlice
 
 // returns the query result object
