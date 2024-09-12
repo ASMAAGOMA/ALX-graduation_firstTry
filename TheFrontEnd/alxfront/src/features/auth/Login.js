@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from './authSlice';
-import { fetchUserData } from './authSlice'; // Import fetchUserData thunk
+import { fetchUserData } from './authSlice';
 import { useLoginMutation } from './authApiSlice';
+import CryptoJS from 'crypto-js'; // You'll need to install this package
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -16,8 +17,19 @@ const Login = () => {
     const [login, { isLoading }] = useLoginMutation();
 
     useEffect(() => {
+        // Load the last used email and password from local storage
+        const lastEmail = localStorage.getItem('lastEmail');
+        const encryptedPassword = localStorage.getItem('lastPassword');
+        if (lastEmail) {
+            setEmail(lastEmail);
+        }
+        if (encryptedPassword) {
+            // Decrypt the password (use a secure key in production)
+            const decryptedPassword = CryptoJS.AES.decrypt(encryptedPassword, 'secret key 123').toString(CryptoJS.enc.Utf8);
+            setPassword(decryptedPassword);
+        }
         setErrMsg('');
-    }, [email, password]);
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -26,19 +38,19 @@ const Login = () => {
             const loginData = await login({ email, password }).unwrap();
             console.log('Login successful. Full login data received:', loginData);
 
-            // Set credentials after login
+            // Save the email and encrypted password to local storage
+            localStorage.setItem('lastEmail', email);
+            const encryptedPassword = CryptoJS.AES.encrypt(password, 'secret key 123').toString();
+            localStorage.setItem('lastPassword', encryptedPassword);
+
             dispatch(setCredentials({ ...loginData }));
 
-            // Fetch user data using the token from login
             const accessToken = loginData.accessToken;
             if (accessToken) {
                 await dispatch(fetchUserData(accessToken)).unwrap();
             }
 
-            navigate('/menu'); // Navigate to the menu page after successful login
-
-            setEmail('');
-            setPassword('');
+            navigate('/menu');
         } catch (err) {
             console.error('Login error:', err);
             if (!err.status) {
